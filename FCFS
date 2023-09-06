@@ -1,0 +1,68 @@
+#include<stdio.h>
+
+
+void calculateTime(int bt[], int at[], int ct[],  int tat[], int wt[], int n)
+{
+    ct[0] = at[0] + bt[0];
+    tat[0] = ct[0] - at[0];
+    wt[0] = tat[0] - bt[0];
+
+    for(int i = 1; i < n; i++)
+    {
+        ct[i] = ct[i - 1] + bt[i];
+        tat[i] = ct[i] - at[i];
+        wt[i] = tat[i] - bt[i];
+    }
+}
+
+void result(int bt[], int at[], int ct[], int tat[], int wt[], int n) {
+    printf("Process\t\tBurst_time\t\tArrival_time\t\tCompletion_time\t\tTurnaround_time\t\tWaiting_time\n");
+
+    for (int i = 0; i < n; i++) {
+        printf("%2d\t\t%7d\t%19d\t%22d\t%25d\t%15d\n", i + 1, bt[i], at[i], ct[i], tat[i], wt[i]);
+    }
+}
+
+
+int main()
+{
+    int n, i;
+    printf("Enter the number of the process: ");
+    scanf("%d", &n);
+
+    int bt[n];
+    int at[n];
+    int ct[n];
+    int tat[n];
+    int wt[n];
+
+    for(i = 0; i < n; i++)
+    {
+        printf("Enter the arival time of process %d: ", i+1);
+        scanf("%d", &at[i]);
+
+        printf("Enter the burst time of process %d: ", i+1);
+        scanf("%d", &bt[i]);
+    }
+
+    calculateTime(bt, at, ct, tat, wt, n);
+    result(bt, at, ct, tat, wt, n);
+
+    //average TAT and average WT
+    float avg_tat = 0;
+    float avg_wt = 0;
+
+    for(i = 0; i < n; i++)
+    {
+        avg_tat += tat[i];
+        avg_wt += wt[i];
+    }
+
+    avg_tat /= n;
+    avg_wt /= n;
+
+    printf("\nAverage turnaround time: %.2f\n", avg_tat);
+    printf("\nAverage waiting time: %.2f\n", avg_wt);
+
+    return 0;
+}
