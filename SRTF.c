@@ -22,14 +22,14 @@ void srtf(int n)
     for(i = 0; i < n; i++)
     {
         p[i].id = i + 1;
-        printf("\nEnter the arrival time and te burst time for p%d: ", i + 1);
+        printf("\nEnter the arrival time for p%d: ", i + 1);
         scanf("%d", &p[i].at);
         printf("\nEnter the burst time for process p%d: ", i + 1);
         scanf("%d", &p[i].bt);
         p[i].rt = p[i].bt;
     }
     printf("p\tAT\tBT\tCT\tTAT\tWT\n");
-    for(; completed < n; current_time++)
+    for(current_time = 0; completed < n; current_time++)
     //The loop iterates until all processes have completed. 
     //At each iteration, the loop finds the process with the shortest remaining time.
     {
@@ -39,10 +39,10 @@ void srtf(int n)
         for(i = 0; i < n; i++)
         {
             if(p[i].at <= current_time && p[i].rt < min_rt && p[i].rt > 0)
-            /*This for loop finds the process with the shortest remaining time. 
-            The loop iterates over all processes and checks if the arrival time
-            of the process is less than or equal to the current time and 
-            if the remaining time of the process is less than the current minimum*/
+            /*This line checks if a process i has arrived, has a shorter remaining time 
+            than the current shortest, and still has work to do. 
+            If all conditions are met, it selects process 
+            i as the next candidate for execution.*/
             {
                 min_rt = p[i].rt;
                 min_rt_index = i;
@@ -50,8 +50,10 @@ void srtf(int n)
         }
         if(min_rt_index != -1)
         {
+            //Decrement the remaining time of the selected process.
             p[min_rt_index].rt--;
 
+            //Check if the remaining time of the selected process has become zero.
             if(p[min_rt_index].rt == 0)
             {
                 completed++;
