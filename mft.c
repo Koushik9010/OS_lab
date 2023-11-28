@@ -1,0 +1,34 @@
+ #include<stdio.h>
+ int i;
+ int main()
+ {
+    int total_memory, total_process, memory, total_wastage = 0;
+
+    printf("Enter the total memory size: ");
+    scanf("%d", &total_memory);
+
+    printf("Enter the total number of processes: ");
+    scanf("%d", &total_process);
+    printf("\n");
+
+    for(i = 0; i < total_process; i++)
+    {
+        printf("Enter the required memory size for process P%d: ", i);
+        scanf("%d", &memory);
+
+        if(memory <= total_memory)
+        {
+            total_memory -= memory;
+        }
+        else
+        {
+            printf("Not enough memory for the process P%d.\n", i);
+        }
+    }
+    printf("\n");
+
+    total_wastage = total_memory;
+    printf("Total memory wastage is: %d", total_wastage);
+
+    return 0;
+ }
