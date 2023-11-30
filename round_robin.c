@@ -1,19 +1,24 @@
 #include<stdio.h>
 
+// Define a structure to represent a process
 struct process
 {
-    int id;
-    int at; // arrival time
-    int bt; // burst time
-    int tat; // turnaround time
-    int ct; // completion time
-    int wt; // waiting time
-    int rt; // remaining time
+    int id;     // process ID
+    int at;     // arrival time
+    int bt;     // burst time
+    int tat;    // turnaround time
+    int ct;     // completion time
+    int wt;     // waiting time
+    int rt;     // remaining time
 };
 
+// Function to perform Round Robin scheduling
 void roundRobin(int n, int time_quantum)
 {
+    // Declare an array of structures to store process details
     struct process p[n];
+
+    // Initialize variables for current time and completed processes
     int current_time = 0;
     int completed = 0;
 
@@ -25,12 +30,13 @@ void roundRobin(int n, int time_quantum)
         scanf("%d", &p[i].at);
         printf("Enter the burst time for process p%d: ", i + 1);
         scanf("%d", &p[i].bt);
-        p[i].rt = p[i].bt;
+        p[i].rt = p[i].bt;  // Remaining time initially equals burst time
     }
 
     // Perform Round Robin scheduling
     while (completed < n)
     {
+        // Iterate through each process
         for (int i = 0; i < n; i++)
         {
             if (p[i].rt > 0)
@@ -51,9 +57,9 @@ void roundRobin(int n, int time_quantum)
                 if (p[i].rt == 0)
                 {
                     completed++;
-                    p[i].ct = current_time;
-                    p[i].tat = p[i].ct - p[i].at;
-                    p[i].wt = p[i].tat - p[i].bt;
+                    p[i].ct = current_time;             // Set completion time
+                    p[i].tat = p[i].ct - p[i].at;       // Calculate turnaround time
+                    p[i].wt = p[i].tat - p[i].bt;       // Calculate waiting time
                 }
             }
         }
@@ -77,6 +83,7 @@ void roundRobin(int n, int time_quantum)
     printf("Average WT: %.2f\n", avg_wt);
 }
 
+// Main function
 int main()
 {
     int n, time_quantum;
